@@ -7,11 +7,11 @@ function Connection() {
 
 	function init(port) {
 
-		connection = net.createConnection(port),
+		var connection = net.createConnection(port);
 		connection.setEncoding('utf8');
 		connection.on("error", function(connectionException) {
 			if (connectionException.errno === "ECONNREFUSED") {
-				util.log('ECONNREFUSED: Connection refused to CloudArray at port ' + port);
+				util.log('ECONNREFUSED: Connection refused at port ' + port);
 			}
 			else {
 				util.log(connectionException);

@@ -17,16 +17,12 @@ function MyApp() {
 
 MyApp.prototype = new EventEmitter();
 
-MyApp.prototype.doSomething = function() {
 
-	// Do something
-};
-
-MyApp.prototype.foo = function(params) {
+MyApp.prototype.doSomething = function(params) {
 	var self = this;
 
 	connection.attachHandlers({
-		command: "some_command",
+		command: "GET /upload HTTP/1.0\r\n\r\n",
 		dataHandler: function(data) {
 			return "Some message...";
 		}
