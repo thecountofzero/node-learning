@@ -1,4 +1,5 @@
 var connection = require("./connection"),
+	Player = require("./player"),
 	EventEmitter = require("events").EventEmitter;
 
 // Helpers
@@ -18,15 +19,10 @@ function MyApp() {
 MyApp.prototype = new EventEmitter();
 
 
-MyApp.prototype.doSomething = function(params) {
+MyApp.prototype.getPlayers = function(params) {
 	var self = this;
 
-	connection.attachHandlers({
-		command: "GET /upload HTTP/1.0\r\n\r\n",
-		dataHandler: function(data) {
-			return "Some message...";
-		}
-	}, function(data) {
+	connection.attachHandlers(Player.findAll(params), function(data) {
 		complete(self, data);
 	});
 };
