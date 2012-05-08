@@ -1,21 +1,25 @@
-var MyApp = require("./myapp");
+var myapp = require("./myapp");
 
 // Example of what a function would look like that a route called
-var getPlayers = function(params) {
-
-	var myapp = new MyApp();
+var getPlayers = function(params, callback) {
 
 	// Call the getPlayers function of the API
-	myapp.getPlayers();
+	myapp.getPlayers(params, function(err, data) {
 
-	// When call is complete and data has been returned, do something with it (aka send back to browser)
-	myapp.on("complete", function(data) {
-		console.log(data);
+		// Execute callback that responds with return value
+		callback(err, data);
 	});
 };
 
-getPlayers({});
+// Test getPlayers
+getPlayers({}, function(err, data) {
 
-
-
-
+	// Error found, do something with it
+	if (err) {
+		console.log(err);
+	}
+	else {
+		// Send the data back to the browser
+		console.log(data);
+	}
+});

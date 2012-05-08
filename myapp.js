@@ -1,31 +1,17 @@
-var connection = require("./connection"),
-	Player = require("./player"),
-	EventEmitter = require("events").EventEmitter;
+var util = require("util"),
+	player = require("./player");
 
-// Helpers
-var complete = function(myapp, data) {
-	myapp.responseData = data;
-	myapp.emit("complete", data);
-};
+var myapp = exports,
+	noop = function() {};
 
-var port = 8080;
+myapp.getPlayers = function(params, callback) {
 
-function MyApp() {
+	callback = arguments[arguments.length - 1];
+	if (typeof(callback) !== 'function') callback = noop;
 
-	this.responseData = "";
-	connection.init(port);
-}
+	player.findAll(params, function(err, data) {
 
-MyApp.prototype = new EventEmitter();
-
-
-MyApp.prototype.getPlayers = function(params) {
-	var self = this;
-
-	connection.attachHandlers(Player.findAll(params), function(data) {
-		complete(self, data);
+		callback(err, data);
 	});
 };
-
-module.exports = MyApp;
 

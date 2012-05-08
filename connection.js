@@ -1,38 +1,36 @@
 var net = require("net"),
 	util = require("util");
 
-var counter = 1;
+var port = 8080;
 
-var conn = exports = module.exports = {};
 
-conn.init = function(port) {
-	var self = this;
-	this.port = port;
-	this.dummy = 10;
-	console.log("counter: " + (++counter));
-	console.log("dummy: " + (++this.dummy));
-	this.connection = net.createConnection(this.port);
+exports.sendRequest = function(request, callback) {
 
-	this.connection.setEncoding('utf8');
-	this.connection.on("error", function(connectionException) {
+	// Establish a connection
+	var connection = net.createConnection(port);
+
+	// Set encoding
+	connection.setEncoding('utf8');
+
+	// Attach event handlers
+	connection.on("error", function(connectionException) {
+
+		// Check for connection refused error
 		if (connectionException.errno === "ECONNREFUSED") {
-			util.log('ECONNREFUSED: Connection refused at port ' + self.port);
+			callback('ECONNREFUSED: Connection refused to CloudArray at port ' + port);
 		}
 		else {
-			util.log(connectionException);
+			callback(connectionException.toString());
 		}
-	});
+	}).on("connect", function() {
 
-	//return this.connection;
-};
-
-conn.attachHandlers = function(handlers, callback) {
-
-	this.connection.on("connect", function() {
-		this.write(handlers.command);
+		// Send the request to the service
+		connection.write(request);
 	}).on("data", function(data) {
-		callback(handlers.dataHandler(data));
+
+		// Execute our callback to process the data returned from the service
+		callback(null, data);
 	}).on('end', function() {
-		util.log('DONE');
+		// Not sure what I want to do here yet
 	});
 };
