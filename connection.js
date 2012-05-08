@@ -1,7 +1,7 @@
 var net = require("net"),
 	util = require("util");
 
-var port = 8080;
+var port = 5290;
 
 
 exports.sendRequest = function(request, callback) {
@@ -30,7 +30,12 @@ exports.sendRequest = function(request, callback) {
 
 		// Execute our callback to process the data returned from the service
 		callback(null, data);
+
+		// Force the connection to time out
+		connection.setTimeout(2000, function() {});
 	}).on('end', function() {
 		// Not sure what I want to do here yet
+	}).on("timeout", function() {
+		connection.destroy();
 	});
 };
