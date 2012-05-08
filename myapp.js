@@ -1,5 +1,5 @@
 var util = require("util"),
-	player = require("./player");
+	player = require("./lib/player");
 
 var myapp = exports,
 	noop = function() {};
