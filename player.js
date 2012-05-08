@@ -8,8 +8,9 @@ player.findAll = function (params, callback) {
 	connection.sendRequest("GET /upload HTTP/1.0\r\n\r\n", function(err, data) {
 
 		// Do something with data such as convert it to the JSON string we want to send back
+		var convertedData = data;
 
-		callback(err, "This will end up being a JSON string to send back to the browser client");
+		callback(err, convertedData);
 	});
 
 	return this;
