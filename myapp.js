@@ -17,3 +17,16 @@ myapp.getPlayers = function(params, callback) {
 	return this;
 };
 
+myapp.getPlayer = function(params, callback) {
+
+	callback = arguments[arguments.length - 1];
+	if (typeof(callback) !== 'function') callback = noop;
+
+	player.findOne(params, function(err, data) {
+
+		callback(err, data);
+	});
+
+	return this;
+};
+

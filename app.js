@@ -11,8 +11,23 @@ var getPlayers = function(params, callback) {
 	});
 };
 
+var getPlayer = function(params, callback) {
+
+	// Call the getPlayers function of the API
+	myapp.getPlayer(params, function(err, data) {
+
+		// Execute callback that responds with return value
+		callback(err, data);
+	});
+};
+
+function sleep(milliSeconds) {
+	var startTime = new Date().getTime();
+	while (new Date().getTime() < startTime + milliSeconds);
+}
+
 // Test getPlayers
-getPlayers({}, function(err, data) {
+getPlayers({id: "1"}, function(err, data) {
 
 	// Error found, do something with it
 	if (err) {
@@ -24,17 +39,14 @@ getPlayers({}, function(err, data) {
 	}
 });
 
-setTimeout(function() {
+getPlayer({id: "2"}, function(err, data) {
 
-	getPlayers({}, function(err, data) {
-
-		// Error found, do something with it
-		if (err) {
-			console.log(err);
-		}
-		else {
-			// Send the data back to the browser
-			console.log(data);
-		}
-	});
-}, 1000);
+	// Error found, do something with it
+	if (err) {
+		console.log(err);
+	}
+	else {
+		// Send the data back to the browser
+		console.log(data);
+	}
+});
