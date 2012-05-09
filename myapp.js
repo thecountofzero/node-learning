@@ -13,5 +13,7 @@ myapp.getPlayers = function(params, callback) {
 
 		callback(err, data);
 	});
+
+	return this;
 };
 

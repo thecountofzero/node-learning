@@ -23,3 +23,18 @@ getPlayers({}, function(err, data) {
 		console.log(data);
 	}
 });
+
+setTimeout(function() {
+
+	getPlayers({}, function(err, data) {
+
+		// Error found, do something with it
+		if (err) {
+			console.log(err);
+		}
+		else {
+			// Send the data back to the browser
+			console.log(data);
+		}
+	});
+}, 1000);
